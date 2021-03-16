@@ -24,7 +24,8 @@ export class BasePage {
   driver: WebDriver;
   url: string;
   searchBar: By = By.name('q');
-  results: By = By.className('div[class = "article"]');
+  keyword: By = By.css('span.findSearchTerm');
+  results: By = By.css('div.article');
   content: string;
 
   /**
@@ -106,7 +107,7 @@ export class BasePage {
    * @param {content} string - the text to search for
    * 
    */
-  async doSearch(content) {
+  async doSearch(content): Promise<void> {
     return this.sendKeys(this.searchBar, `${content}\n`);
   }
   /**
@@ -114,16 +115,16 @@ export class BasePage {
    * @param {By} elementBy - the locator of the element to send keys to
    * 
    */
-  async sendKeys(elementBy: By, keys) {
+  async sendKeys(elementBy: By, keys): Promise<void>  {
     await this.driver.wait(until.elementLocated(elementBy));
     return this.driver.findElement(elementBy).sendKeys(keys);
   }
   /**
-   * returns text from an element
+   * the results article of a search
    * @param {results} string - the results
    * 
    */
-  async getResults() {
+  async getResults(): Promise<string>  {
     return this.getText(this.results);
   }
   /**
@@ -140,18 +141,17 @@ export class BasePage {
    * Will take a screenshot and save it to the filepath/filename provided.
    * Automatically saves as a .png file.
    * @param {string} filepath - the filepath relative to the project's base folder where you want the screenshot saved
-   * @example
-   * page.takeScreenshot("myFolder/mypic")
+   * @example - page.takeScreenshot("myFolder/mypic")
    * //picture saves in "myFolder" as "mypic.png"
    */
-  async takeScreenshot(filepath: string) {
+  async takeScreenshot(filepath: string): Promise<void>  {
     fs.writeFile(
       `${filepath}.png`,
       await this.driver.takeScreenshot(),
       "base64",
       (e) => {
         if (e) console.log(e);
-        else console.log("screenshot saved successfully");
+        else return filepath; //console.log("screenshot saved successfully");
       }
     );
   }
