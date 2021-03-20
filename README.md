@@ -7,6 +7,9 @@
 - [How Do We Test](#how-do-we-test)
   - [Page Objects](#page-objects)
   - [Data Files](#data-files)
+- [Lessons Learned](#lessons-learned)
+- [Tools/technologies used](#tools-technologies-used)
+- [Processes Followed](#processes-followed)
 
 ## Summary
 
